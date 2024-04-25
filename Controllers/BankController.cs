@@ -1,6 +1,7 @@
 ﻿using Bank_Branch.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using WebApplication1.Models;
 
@@ -62,15 +63,19 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public IActionResult Details(int id)
         {
-            var bank = _context.bankBranchTable.Find(id);
+            var bank = _context.bankBranchTable.Include(r => r.Employees).SingleOrDefault(r => r.BankId == id);
             if (bank == null)
             {
                 return NotFound();
             }
-            return Ok(new BankBranchResponse { 
+            return Ok(new BankBranchResponse {
+            employeeResponses = bank.Employees.Select(r => new EmployeeResponse {
+               Name = r.Name,
+            }).ToList(),
             BranchManager = bank.BranchManager,
-            LocationURL = bank.LocationURL,
-            LocationName = bank.LocationName
+            LocationURL = bank.LocationURL, 
+            LocationName = bank.LocationName    
+            
             });
         }
 
@@ -80,7 +85,7 @@ namespace WebApplication1.Controllers
             var bank = _context.bankBranchTable.Find(id);
             _context.bankBranchTable.Remove(bank);
             _context.SaveChanges();
-            return Created(nameof(Details), new {BankId = bank.});
+            return Created(nameof(Details), new {BankId = bank.BankId});
         }
 
 

@@ -20,21 +20,27 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-        public IActionResult AddEmployee(Employee form)
+        public IActionResult AddEmployee(AddEmployeeRequest form)
         {
             var context = _context;
 
             var name = form.Name;
             var position = form.Position;
-            var bankBranch = form.BankBranch;
+            var bankId = form.BankId;
 
-
+            new AddEmployeeRequest
+            {
+                BankId = bankId,
+                Position = position,
+                Name = name
+            };
 
             context.Employees.Add(new Employee
             {
-                Name = name,
-                Position = position,
-                BankBranch = bankBranch
+                Name = form.Name,
+                Position = form.Position,
+                CivilId = form.CivilId,
+                BankBranch = context.bankBranchTable.Find(form.BankId)
             });
             context.SaveChanges();
 
@@ -45,14 +51,14 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public IActionResult Details(int id)
         {
-            var bank = _context.Employees.Find(id);
+            var bank = _context.Employees.Include(b => b.BankBranch).SingleOrDefault(b => b.Id == id);
             if (bank == null)
             {
                 return NotFound();
             }
-            return Ok(new Employee
+            return Ok(new EmployeeDetails
             {
-                BankBranch = bank.BankBranch,
+                BankId = bank.BankBranch.BankId,
                 Position = bank.Position,
                 Name = bank.Name
             });
@@ -69,12 +75,12 @@ namespace WebApplication1.Controllers
 
 
         [HttpPatch("{id}")]
-        public IActionResult Edit(int id, Employee request)
+        public IActionResult Edit(int id, EditEmployee request)
         {
             var employee = _context.Employees.Find(id);
             employee.Name = request.Name;
             employee.Position = request.Position;
-            employee.BankBranch = request.BankBranch;
+            employee.BankBranch = _context.bankBranchTable.Find(request.BankId);
             _context.SaveChanges();
             return Created(nameof(Details), new { Id = employee.Id });
         }
