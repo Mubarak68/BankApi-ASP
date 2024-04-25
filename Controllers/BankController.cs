@@ -45,6 +45,7 @@ namespace WebApplication1.Controllers
             var branchManager = form.BranchManager;
             
 
+
                 context.bankBranchTable.Add(new BankBranch
                 {
                     LocationName = locationName,
