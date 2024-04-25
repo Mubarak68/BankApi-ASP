@@ -18,10 +18,21 @@ namespace WebApplication1.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        //public IActionResult GetAll()
+        //{
+        //    var branches = _context.bankBranchTable.ToList();
+        //    return Ok(branches);
+        //}
+
+        public List<BankBranchResponse> GetAll() 
         {
-            var branches = _context.bankBranchTable.ToList();
-            return Ok(branches);
+            return _context.bankBranchTable.Select(b => new BankBranchResponse
+            {
+                BranchManager = b.BranchManager,
+                LocationURL = b.LocationURL,
+                LocationName = b.LocationName
+        }).ToList();
+            
         }
 
         [HttpPost]
