@@ -1,17 +1,16 @@
-﻿using Bank_Branch.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace WebApplication1.Models
+﻿namespace BankBranchAPI.Models
 {
     public class AddEmployeeRequest
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
-        public string Position { get; set; }
-        [Required]
-        public int BankId { get; set; }
-        [Required]
         public int CivilId { get; set; }
+        public string Position { get; set; }
+    }
+
+    public class EmployeeResponse
+    {
+        public string Name { get; set; }
+        public int CivilId { get; set; }
+        public string Position { get; set; }
     }
 }

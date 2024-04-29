@@ -1,21 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Bank_Branch.Models
+﻿namespace BankBranchAPI.Models
 {
     public class BankBranch
     {
-        [Key]
-        public int BankId { get; set; }
-        [Required]
+        public int Id { get; set; }
         public string LocationName { get; set; }
-        [Required]
         public string LocationURL { get; set; }
-        [Required]
         public string BranchManager { get; set; }
-        [Required]
-        public int EmployeeCount {  get; set; }
-
-        [Required]
-        public List<Employee> Employees { get; set;}=new List<Employee>();
+        public int EmployeeCount { get; set; }
+        public List<Employee> Employees { get; set; }
     }
 }
