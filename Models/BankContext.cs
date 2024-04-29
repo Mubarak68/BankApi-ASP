@@ -6,7 +6,7 @@ namespace Bank_Branch.Models
     public class BankContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<BankBranch> bankBranchTable { get; set; }
+        public DbSet<BankBranch> BankBranches { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

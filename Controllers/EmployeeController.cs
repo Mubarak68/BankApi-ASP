@@ -10,80 +10,68 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-
-        private readonly BankContext _context;
-
-        public EmployeeController(BankContext context)
+        public class EmployeeController : ControllerBase
         {
-            _context = context;
-        }
-
-
-        [HttpPost]
-        public IActionResult AddEmployee(AddEmployeeRequest form)
-        {
-            var context = _context;
-
-            var name = form.Name;
-            var position = form.Position;
-            var bankId = form.BankId;
-
-            new AddEmployeeRequest
+            private readonly BankContext _context;
+            public EmployeeController(BankContext context)
             {
-                BankId = bankId,
-                Position = position,
-                Name = name
-            };
-
-            context.Employees.Add(new Employee
-            {
-                Name = form.Name,
-                Position = form.Position,
-                CivilId = form.CivilId,
-                BankBranch = context.bankBranchTable.Find(form.BankId)
-            });
-            context.SaveChanges();
-
-            return Created();
-        }
-
-
-        [HttpGet("{id}")]
-        public IActionResult Details(int id)
-        {
-            var bank = _context.Employees.Include(b => b.BankBranch).SingleOrDefault(b => b.Id == id);
-            if (bank == null)
-            {
-                return NotFound();
+                _context = context;
             }
-            return Ok(new EmployeeDetails
+
+            [HttpPost("{id}")]
+            public IActionResult Add(int id, AddEmployeeRequest request)
             {
-                BankId = bank.BankBranch.BankId,
-                Position = bank.Position,
-                Name = bank.Name
-            });
-        }
+                var branch = _context.BankBranches.FirstOrDefault(b => b.Id == id);
+                if (branch == null)
+                {
+                    return NotFound();
+                }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var employee = _context.Employees.Find(id);
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
-            return Created(nameof(Details), new { Id = employee.Id });
-        }
+                _context.Employees.Add(new Employee() { Name = request.Name, CivilId = request.CivilId, Position = request.Position, BankBranch = branch });
+                _context.SaveChanges();
 
+                return Created();
+            }
 
-        [HttpPatch("{id}")]
-        public IActionResult Edit(int id, EditEmployee request)
-        {
-            var employee = _context.Employees.Find(id);
-            employee.Name = request.Name;
-            employee.Position = request.Position;
-            employee.BankBranch = _context.bankBranchTable.Find(request.BankId);
-            _context.SaveChanges();
-            return Created(nameof(Details), new { Id = employee.Id });
+            [HttpPatch("{id}")]
+            public IActionResult Edit(int id, AddEmployeeRequest request)
+            {
+                var employee = _context.Employees.FirstOrDefault(b => b.Id == id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                employee.Position = request.Position;
+                employee.Name = request.Name;
+                employee.CivilId = request.CivilId;
+                _context.SaveChanges();
+
+                return Created();
+            }
+
+            [HttpDelete("{id}")]
+            public IActionResult Delete(int id)
+            {
+                var employee = _context.Employees.Find(id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+                return Ok();
+            }
+
+            [HttpGet("{id}")]
+            public ActionResult<EmployeeResponse> Details(int id)
+            {
+                var employee = _context.Employees.Find(id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                return new EmployeeResponse { Name = employee.Name, CivilId = employee.CivilId, Position = employee.Position };
+            }
         }
     }
-}
 
