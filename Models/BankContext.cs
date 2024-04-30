@@ -1,4 +1,4 @@
-﻿using BankBranchAPI.Models;
+﻿using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Models

@@ -1,4 +1,4 @@
-using BankBranchAPI.Models;
+using WebApplication1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

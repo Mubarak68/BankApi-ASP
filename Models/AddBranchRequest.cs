@@ -1,4 +1,4 @@
-﻿using BankBranchAPI.Models;
+﻿using WebApplication1.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models

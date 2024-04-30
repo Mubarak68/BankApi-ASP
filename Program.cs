@@ -1,4 +1,4 @@
-using BankBranchAPI.Models;
+using WebApplication1.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,8 +16,10 @@ namespace WebApplication1
             // Add services to the container.
 
             builder.Services.AddScoped<TokenService>();
-
-            //allows app to output xml response
+            builder.Services.AddDbContext<BankContext>(options => {
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.LogTo(Console.WriteLine, LogLevel.Information);
+            });            //allows app to output xml response
             builder.Services.AddControllers().AddXmlSerializerFormatters();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -48,7 +50,7 @@ namespace WebApplication1
                     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "BankBranchAPI",
+                        Title = "WebApplication1",
                         Description = "Your Api Description.",
                         TermsOfService = new Uri("https://google.com"),
                         Contact = new Microsoft.OpenApi.Models.OpenApiContact
