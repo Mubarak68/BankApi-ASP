@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankBranchAPI.Controllers
+namespace WebApplication1.Controllers
 {
     /// <summary>
     /// Bank branches controller with branch related endpoints

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankBranchAPI.Controllers
+namespace WebApplication1.Controllers
 {
     [Route("[controller]")]
     [ApiController]

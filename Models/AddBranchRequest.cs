@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BankBranchAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace BankBranchAPI.Models
+namespace WebApplication1.Models
 {
     public class AddBranchRequest : IValidatableObject
     {

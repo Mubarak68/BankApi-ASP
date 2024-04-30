@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankBranchAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BankBranchAPI.Models
+namespace WebApplication1.Models
 {
     public class BankContext : DbContext
     {

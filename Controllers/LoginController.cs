@@ -1,8 +1,9 @@
 ﻿using BankBranchAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models;
 
-namespace BankBranchAPI.Controllers
+namespace WebApplication1.Controllers
 {
     [Route("[controller]")]
     [ApiController]
